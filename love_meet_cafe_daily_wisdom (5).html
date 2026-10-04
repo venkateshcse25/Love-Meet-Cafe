@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Meet Cafe - Daily Wisdom</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        cafe: {
+                            50: '#fdf8f5',
+                            100: '#f9eee7',
+                            200: '#f2dcd0',
+                            300: '#e8c2ad',
+                            400: '#db9f82',
+                            500: '#d1825f',
+                            600: '#c56847',
+                            700: '#a55239',
+                            800: '#854432',
+                            900: '#6b392b',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                        'bounce-slight': 'bounceSlight 2s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(10px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        },
+                        bounceSlight: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-3px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-image: radial-gradient(circle at top right, #fdf8f5, #f2dcd0);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .hidden-screen {
+            display: none !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e8c2ad;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen font-sans text-cafe-900 flex items-center justify-center p-4 sm:p-6">
+
+    <main class="w-full max-w-md mx-auto relative overflow-hidden rounded-3xl shadow-2xl glass-card min-h-[580px] flex flex-col p-6 sm:p-8 border-cafe-200">
+        
+        <!-- Background decorative elements -->
+        <div class="absolute top-0 left-0 w-32 h-32 bg-cafe-300 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse pointer-events-none"></div>
+        <div class="absolute bottom-0 right-0 w-40 h-40 bg-rose-200 rounded-full mix-blend-multiply filter blur-2xl opacity-40 animate-pulse pointer-events-none" style="animation-delay: 1s;"></div>
+
+        <div id="welcome-screen" class="w-full relative z-10 transition-opacity duration-500 ease-in-out opacity-100 flex flex-col items-center h-full flex-grow justify-center">
+            
+            <div class="text-center mb-6">
+                <h1 class="font-serif text-4xl font-bold text-cafe-800 mb-2">Love Meet Cafe</h1>
+                <p class="text-cafe-600 font-light text-sm italic">Good food, great drinks, and a little inspiration.</p>
+            </div>
+            
+            <div class="w-full space-y-6 flex-grow flex flex-col justify-center">
+                
+                <div class="text-left">
+                    <label for="userName" class="block text-sm font-medium text-cafe-700 mb-2 ml-1">Your Name</label>
+                    <input 
+                        type="text" 
+                        id="userName" 
+                        placeholder="Enter your name" 
+                        class="w-full px-5 py-3 rounded-xl border-2 border-cafe-200 bg-white bg-opacity-70 focus:outline-none focus:ring-0 focus:border-cafe-400 transition-all placeholder-cafe-300 text-cafe-800 shadow-sm text-lg"
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <p id="name-error" class="text-red-500 text-xs mt-1 ml-1 hidden">Please enter your name to continue.</p>
+                </div>
+
+                <div class="text-left">
+                    <label for="orderItem" class="block text-sm font-medium text-cafe-700 mb-2 ml-1">What did you order?</label>
+                    <input 
+                        type="text" 
+                        id="orderItem" 
+                        placeholder="e.g., Chicken, Fresh Juice, Maggi..." 
+                        class="w-full px-5 py-3 rounded-xl border-2 border-cafe-200 bg-white bg-opacity-70 focus:outline-none focus:ring-0 focus:border-cafe-400 transition-all placeholder-cafe-300 text-cafe-800 shadow-sm text-lg"
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <p id="order-error" class="text-red-500 text-xs mt-1 ml-1 hidden">Please tell us what you ordered!</p>
+                </div>
+                
+                <button 
+                    onclick="revealWisdom()"
+                    class="w-full bg-cafe-600 hover:bg-cafe-700 text-white font-medium py-4 px-6 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-lg mt-4"
+                >
+                    Get My Message ✨
+                </button>
+            </div>
+        </div>
+
+        <div id="wisdom-screen" class="w-full relative z-10 hidden-screen flex-col items-center justify-center h-full flex-grow py-4">
+            
+            <div id="result-icon" class="text-6xl mb-4 animate-float">
+                <!-- Icon injected here -->
+            </div>
+            
+            <div class="mb-6 relative w-full mt-4">
+                <div class="text-5xl text-cafe-300 absolute -top-6 -left-2 opacity-50 font-serif">"</div>
+                <div class="text-5xl text-cafe-300 absolute -bottom-8 -right-2 opacity-50 font-serif rotate-180">"</div>
+                
+                <div class="bg-white bg-opacity-70 rounded-2xl p-6 md:p-8 shadow-sm border border-cafe-100 relative z-10 mt-6">
+                    <p id="wisdom-quote" class="text-lg md:text-xl font-medium text-cafe-800 leading-relaxed font-serif italic text-center">
+                        <!-- Quote will be injected here -->
+                    </p>
+                </div>
+            </div>
+            
+            <p id="wisdom-footer" class="text-cafe-500 text-sm mt-4 mb-8 text-center font-light">
+                <!-- Footer message injected here -->
+            </p>
+            
+            <button 
+                onclick="resetApp()"
+                class="mt-auto text-cafe-600 hover:text-cafe-800 font-medium underline-offset-4 hover:underline transition-colors text-sm flex items-center justify-center py-2 px-4"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Try Another
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        // Versatile quotes that work for food or drinks
+        const quotes = [
+            "Just like your {item}, every new day is bursting with flavor and possibilities, {name}!",
+            "Enjoy your {item}, {name}! May your day be as comforting and wonderful as your choice.",
+            "A great idea begins with a good bite or sip of {item}. Let this moment spark your creativity today, {name}.",
+            "Savor every bit of your {item}. Life is about enjoying the little things at Love Meet Cafe, right {name}?",
+            "Like this perfect order of {item}, good things are coming your way, {name}. Take a deep breath and smile.",
+            "There's magic in the air and in your {item}, {name}. Wishing you a beautiful, productive day ahead.",
+            "Treat yourself well, {name}. May your {item} be the delightful start to a truly inspiring day!"
+        ];
+
+        // Smart Emoji Dictionary based on keywords
+        const emojiMap = {
+            'chicken': '🍗',
+            'juice': '🧃',
+            'tea': '🍵',
+            'chai': '🍵',
+            'coffee': '☕️',
+            'cappuccino': '☕️',
+            'latte': '☕️',
+            'espresso': '☕️',
+            'maggi': '🍜',
+            'noodle': '🍜',
+            'burger': '🍔',
+            'brownie': '🍫',
+            'cake': '🍰',
+            'mocktail': '🍹',
+            'cocktail': '🍸',
+            'bun': '🍞',
+            'fries': '🍟',
+            'waffle': '🧇',
+            'pasta': '🍝',
+            'nugget': '🍗',
+            'omelet': '🍳',
+            'egg': '🍳',
+            'milk': '🥛',
+            'sandwich': '🥪',
+            'croissant': '🥐'
+        };
+
+        const fallbackIcons = ['✨', '🤎', '🍽️', '😋'];
+
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const wisdomScreen = document.getElementById('wisdom-screen');
+        const nameInput = document.getElementById('userName');
+        const orderInput = document.getElementById('orderItem'); 
+        const wisdomQuote = document.getElementById('wisdom-quote');
+        const resultIcon = document.getElementById('result-icon');
+        const wisdomFooter = document.getElementById('wisdom-footer');
+        
+        const nameError = document.getElementById('name-error');
+        const orderError = document.getElementById('order-error');
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                revealWisdom();
+            }
+        }
+
+        function getSmartEmoji(order) {
+            const lowerOrder = order.toLowerCase();
+            // Check if any keyword matches the order string
+            for (const [keyword, emoji] of Object.entries(emojiMap)) {
+                if (lowerOrder.includes(keyword)) {
+                    return emoji;
+                }
+            }
+            // If no match is found, return a random generic cafe emoji
+            return fallbackIcons[Math.floor(Math.random() * fallbackIcons.length)];
+        }
+
+        function revealWisdom() {
+            const name = nameInput.value.trim();
+            const order = orderInput.value.trim();
+            let isValid = true;
+            
+            // Validation
+            if (name === "") {
+                nameError.classList.remove('hidden');
+                nameInput.classList.add('border-red-400', 'focus:border-red-400');
+                nameInput.classList.remove('border-cafe-200', 'focus:border-cafe-400');
+                isValid = false;
+            } else {
+                nameError.classList.add('hidden');
+                nameInput.classList.remove('border-red-400', 'focus:border-red-400');
+                nameInput.classList.add('border-cafe-200', 'focus:border-cafe-400');
+            }
+
+            if (order === "") {
+                orderError.classList.remove('hidden');
+                orderInput.classList.add('border-red-400', 'focus:border-red-400');
+                orderInput.classList.remove('border-cafe-200', 'focus:border-cafe-400');
+                isValid = false;
+            } else {
+                orderError.classList.add('hidden');
+                orderInput.classList.remove('border-red-400', 'focus:border-red-400');
+                orderInput.classList.add('border-cafe-200', 'focus:border-cafe-400');
+            }
+
+            if (!isValid) return;
+
+            // Generate Content
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const rawQuote = quotes[randomIndex];
+            
+            const formattedOrder = `<span class="text-cafe-700 font-semibold">${order}</span>`;
+            const formattedName = `<span class="text-cafe-700 font-semibold">${capitalizeFirstLetter(name)}</span>`;
+            
+            let personalizedQuote = rawQuote.replace('{item}', formattedOrder);
+            personalizedQuote = personalizedQuote.replaceAll('{name}', formattedName);
+
+            // Apply to DOM
+            wisdomQuote.innerHTML = personalizedQuote; 
+            resultIcon.innerText = getSmartEmoji(order); // Smart Emoji Detection
+            wisdomFooter.innerText = `Enjoy your ${order} and soak in the cafe vibes!`;
+
+            // Animate transition
+            welcomeScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                welcomeScreen.classList.add('hidden-screen');
+                wisdomScreen.classList.remove('hidden-screen');
+                wisdomScreen.classList.add('flex');
+                
+                void wisdomScreen.offsetWidth; // Trigger reflow
+                wisdomScreen.classList.add('animate-fade-in');
+            }, 400); 
+        }
+
+        function resetApp() {
+            wisdomScreen.classList.remove('animate-fade-in');
+            wisdomScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                wisdomScreen.classList.add('hidden-screen');
+                wisdomScreen.classList.remove('flex');
+                
+                welcomeScreen.classList.remove('hidden-screen');
+                
+                void welcomeScreen.offsetWidth;
+                welcomeScreen.style.opacity = '1';
+                wisdomScreen.style.opacity = ''; 
+                
+                nameInput.value = '';
+                orderInput.value = '';
+            }, 400);
+        }
+
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+        }
+    </script>
+</body>
+</html>
